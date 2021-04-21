@@ -6,13 +6,13 @@ const TodosUrl = "https://todos-project-api.herokuapp.com/todos/";
 export default class Todos extends Component {
   componentDidMount() {
     this._fetchData();
-    const authTodos = axios.create({
-      baseURL: TodosUrl,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: "*/*",
-      },
-    });
+    // const authTodos = axios.create({
+    //   baseURL: TodosUrl,
+    //   headers: {
+    //     Authorization: `Bearer ${accessToken}`,
+    //     Accept: "*/*",
+    //   },
+    // });
 
     const config = {
       headers: {
