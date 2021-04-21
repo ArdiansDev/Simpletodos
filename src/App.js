@@ -1,23 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Todos from "./component/Todos";
 
 function App() {
+  // const accessToken =
+  //   "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3LCJleHAiOjE2MTkzMjI3MTl9.nQO3vPhYs59Rm6vpgNIv1prARl2FWVZY6rvm4bKAr7w";
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Todos />
     </div>
   );
 }
