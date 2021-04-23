@@ -1,46 +1,41 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import * as axios from "axios";
-import { accessToken } from "./config";
+import { config, TodosUrl } from "./config";
+import TodosItem from "./TodoItems";
 
-const TodosUrl = "https://todos-project-api.herokuapp.com/todos/";
-export default class Todos extends Component {
-  componentDidMount() {
-    this._fetchData();
-    // const authTodos = axios.create({
-    //   baseURL: TodosUrl,
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`,
-    //     Accept: "*/*",
-    //   },
-    // });
-
-    const config = {
-      headers: {
-        // "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${accessToken}`,
-        Host: "todos-project-api.herokuapp.com",
-      },
-    };
+export default function Todos() {
+  const [data, setData] = useState([]);
+  // const [percentage, setPercentage] = useState("0%");
+  const callData = () => {
     axios.get(TodosUrl, config).then((result) => {
-      console.log(result);
+      setData(result.data);
     });
-  }
-
-  _fetchData = async () => {
-    try {
-      const res = await axios.get(TodosUrl, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log({ res });
-    } catch (error) {
-      console.error(error);
-    }
   };
+  useEffect(() => {
+    callData();
+  }, []);
 
-  render() {
-    return <div className="Todos">tes </div>;
-  }
+  return (
+    <div>
+      <div>
+        <div key={data.id} className="Todos">
+          {data.map((data) => (
+            <div>
+              <div className="Cards">
+                <div className="Title">
+                  <div>
+                    <h1>{data.title}</h1>
+                    <p>{data.description}</p>
+                  </div>
+                </div>
+                <div>
+                  <TodosItem callData={callData} key={data.id} data={data} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }

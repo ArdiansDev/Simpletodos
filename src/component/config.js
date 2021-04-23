@@ -7,3 +7,5 @@ export const config = {
 export const bodyParameters = {
   key: "value",
 };
+
+export const TodosUrl = "https://todos-project-api.herokuapp.com/todos/";
