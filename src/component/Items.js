@@ -139,194 +139,197 @@ export default function Items(props) {
   };
 
   return (
-    <div key={data.name} className="TodosItem">
-      <h1>{data.name}</h1>
-      <div className="ProgressContainer">
-        <div className="ProgressSubContainer">
-          <div className="Progress">
+    <div>
+      <div key={data.name} className="TodosItem">
+        <h1>{data.name}</h1>
+
+        <div className="ProgressContainer">
+          <div className="ProgressSubContainer">
+            <div className="Progress">
+              <div
+                style={{
+                  height: "100%",
+                  width: percentage,
+                  maxWidth: "100%",
+                  backgroundColor: color,
+                  borderRadius: "8px",
+                }}
+              ></div>
+            </div>
             <div
-              style={{
-                height: "100%",
-                width: percentage,
-                maxWidth: "100%",
-                backgroundColor: color,
-                borderRadius: "8px",
-              }}
-            ></div>
+              style={
+                done ? { display: "none" } : { margin: "8px", color: "green" }
+              }
+            >
+              {percentage}%
+            </div>
+            <div
+              style={
+                done ? { padding: "8px", color: "green" } : { display: "none" }
+              }
+            >
+              <CheckCircleIcon />
+            </div>
           </div>
-          <div
-            style={
-              done ? { display: "none" } : { margin: "8px", color: "green" }
-            }
+
+          <Button onClick={handleClick} className="MenuButton">
+            <MoreHorizIcon />
+          </Button>
+
+          {/* Menu */}
+
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
           >
-            {percentage}%
-          </div>
-          <div
-            style={
-              done ? { padding: "8px", color: "green" } : { display: "none" }
-            }
+            <MenuItem
+              style={{ width: "158px", paddingRight: "12px" }}
+              onClick={handleNext}
+            >
+              <ArrowForwardIcon style={{ marginRight: "12px" }} />
+              Move Right
+            </MenuItem>
+            <MenuItem
+              style={{ width: "158px", paddingRight: "12px" }}
+              onClick={handlePrev}
+            >
+              <ArrowBackIcon style={{ marginRight: "12px" }} />
+              Move Left
+            </MenuItem>
+            <MenuItem
+              style={{ width: "158px", paddingRight: "12px" }}
+              onClick={handleOpenEdit}
+            >
+              <BorderColorIcon style={{ marginRight: "12px" }} />
+              Edit
+            </MenuItem>
+            <MenuItem
+              style={{ width: "158px", paddingRight: "12px" }}
+              onClick={handleOpenDelete}
+            >
+              <DeleteOutlineIcon style={{ marginRight: "12px" }} /> Delete
+            </MenuItem>
+          </Menu>
+
+          <Dialog
+            open={openDelete}
+            onClose={handleCloseDelete}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
           >
-            <CheckCircleIcon />
-          </div>
+            <div className="DeleteModal">
+              <div className="Container">
+                <ErrorOutlineIcon />
+                <div className="TextWrapper">
+                  <h1>Delete Task</h1>
+                  <p>
+                    Are you sure want to delete this task? your action can’t be
+                    reverted.
+                  </p>
+
+                  <DialogActions>
+                    <Button
+                      onClick={handleCloseDelete}
+                      style={{
+                        width: "77px",
+                        height: "32px",
+                      }}
+                      variant="outlined"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleDeleteTask}
+                      style={{
+                        width: "77px",
+                        height: "32px",
+                        backgroundColor: "red",
+                        color: "white",
+                      }}
+                      autoFocus
+                    >
+                      Delete
+                    </Button>
+                  </DialogActions>
+                </div>
+              </div>
+            </div>
+          </Dialog>
+
+          {/* Dialog for Edit */}
+
+          <Dialog
+            open={openEdit}
+            onClose={handleCloseEdit}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <div className="EditModal">
+              <div className="Container">
+                <div className="TextWrapper">
+                  <h1>Edit Task</h1>
+                  <form className="CreateForm" noValidate autoComplete="off">
+                    <p>Task Name</p>
+                    <TextField
+                      style={{
+                        width: "505px",
+                        margin: "0px 33px 27px 33px",
+                      }}
+                      type="text"
+                      value={name}
+                      id="outlined-basic"
+                      placeholder="example: Build rocket to Mars."
+                      variant="outlined"
+                      onChange={handleOnChangeName}
+                    />
+                    <p>Percentage</p>
+                    <TextField
+                      onChange={handleOnChangePercentage}
+                      style={{
+                        width: "99px",
+                        margin: "0 0 27px 33px",
+                      }}
+                      defaultValue={progress_percentage}
+                      type="text"
+                      id="outlined-basic"
+                      placeholder="0%"
+                      variant="outlined"
+                    />
+                  </form>
+                  <DialogActions>
+                    <Button
+                      onClick={handleCloseEdit}
+                      style={{
+                        textTransform: "none",
+                        width: "96px",
+                        height: "32px",
+                      }}
+                      variant="outlined"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleEditTask}
+                      style={{
+                        textTransform: "none",
+                        width: "96px",
+                        height: "32px",
+                        backgroundColor: "green",
+                        color: "white",
+                      }}
+                      autoFocus
+                    >
+                      Save Task
+                    </Button>
+                  </DialogActions>
+                </div>
+              </div>
+            </div>
+          </Dialog>
         </div>
-
-        <Button onClick={handleClick} className="MenuButton">
-          <MoreHorizIcon />
-        </Button>
-
-        {/* Menu */}
-
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem
-            style={{ width: "158px", paddingRight: "12px" }}
-            onClick={handleNext}
-          >
-            <ArrowForwardIcon style={{ marginRight: "12px" }} />
-            Move Right
-          </MenuItem>
-          <MenuItem
-            style={{ width: "158px", paddingRight: "12px" }}
-            onClick={handlePrev}
-          >
-            <ArrowBackIcon style={{ marginRight: "12px" }} />
-            Move Left
-          </MenuItem>
-          <MenuItem
-            style={{ width: "158px", paddingRight: "12px" }}
-            onClick={handleOpenEdit}
-          >
-            <BorderColorIcon style={{ marginRight: "12px" }} />
-            Edit
-          </MenuItem>
-          <MenuItem
-            style={{ width: "158px", paddingRight: "12px" }}
-            onClick={handleOpenDelete}
-          >
-            <DeleteOutlineIcon style={{ marginRight: "12px" }} /> Delete
-          </MenuItem>
-        </Menu>
-
-        <Dialog
-          open={openDelete}
-          onClose={handleCloseDelete}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <div className="DeleteModal">
-            <div className="Container">
-              <ErrorOutlineIcon />
-              <div className="TextWrapper">
-                <h1>Delete Task</h1>
-                <p>
-                  Are you sure want to delete this task? your action can’t be
-                  reverted.
-                </p>
-
-                <DialogActions>
-                  <Button
-                    onClick={handleCloseDelete}
-                    style={{
-                      width: "77px",
-                      height: "32px",
-                    }}
-                    variant="outlined"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleDeleteTask}
-                    style={{
-                      width: "77px",
-                      height: "32px",
-                      backgroundColor: "red",
-                      color: "white",
-                    }}
-                    autoFocus
-                  >
-                    Delete
-                  </Button>
-                </DialogActions>
-              </div>
-            </div>
-          </div>
-        </Dialog>
-
-        {/* Dialog for Edit */}
-
-        <Dialog
-          open={openEdit}
-          onClose={handleCloseEdit}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <div className="EditModal">
-            <div className="Container">
-              <div className="TextWrapper">
-                <h1>Edit Task</h1>
-                <form className="CreateForm" noValidate autoComplete="off">
-                  <p>Task Name</p>
-                  <TextField
-                    style={{
-                      width: "505px",
-                      margin: "0px 33px 27px 33px",
-                    }}
-                    type="text"
-                    value={name}
-                    id="outlined-basic"
-                    placeholder="example: Build rocket to Mars."
-                    variant="outlined"
-                    onChange={handleOnChangeName}
-                  />
-                  <p>Percentage</p>
-                  <TextField
-                    onChange={handleOnChangePercentage}
-                    style={{
-                      width: "99px",
-                      margin: "0 0 27px 33px",
-                    }}
-                    defaultValue={progress_percentage}
-                    type="text"
-                    id="outlined-basic"
-                    placeholder="0%"
-                    variant="outlined"
-                  />
-                </form>
-                <DialogActions>
-                  <Button
-                    onClick={handleCloseEdit}
-                    style={{
-                      textTransform: "none",
-                      width: "96px",
-                      height: "32px",
-                    }}
-                    variant="outlined"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleEditTask}
-                    style={{
-                      textTransform: "none",
-                      width: "96px",
-                      height: "32px",
-                      backgroundColor: "green",
-                      color: "white",
-                    }}
-                    autoFocus
-                  >
-                    Save Task
-                  </Button>
-                </DialogActions>
-              </div>
-            </div>
-          </div>
-        </Dialog>
       </div>
     </div>
   );

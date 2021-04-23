@@ -1,5 +1,11 @@
 .App {
   /* text-align: center; */
+  display: flex;
+}
+.Sidebar {
+  height: 100vh;
+  width: 68px;
+  background-color: #2f3136;
 }
 
 .Todos {
@@ -8,12 +14,51 @@
   margin: 50px;
 }
 
-.Cards {
+.ContainerCard:nth-child(1) .Cards {
   width: 306px;
   border: 1px solid #eb2f96 !important;
   border-radius: 4px;
   background-color: #fff9fb;
   margin: 16px;
+}
+
+.ContainerCard:nth-child(2) .Cards {
+  width: 306px;
+  border: 1px solid #7b61ff !important;
+  border-radius: 4px;
+  background-color: #fcfafd;
+  margin: 16px;
+}
+
+.ContainerCard:nth-child(3) .Cards {
+  width: 306px;
+  border: 1px solid #2f54eb !important;
+  border-radius: 4px;
+  background-color: #f7faff;
+  margin: 16px;
+}
+
+.ContainerCard:nth-child(4) .Cards {
+  width: 306px;
+  border: 1px solid #eb2f96 !important;
+  border-radius: 4px;
+  background-color: #fff9fb;
+  margin: 16px;
+}
+
+.ContainerCard:nth-child(2) .Cards .Title h1 {
+  color: #7b61ff;
+  background-color: #f9f0ff;
+}
+
+.ContainerCard:nth-child(3) .Cards .Title h1 {
+  color: #2f54eb;
+  background-color: #f0f5ff;
+}
+
+.ContainerCard:nth-child(4) .Cards .Title h1 {
+  color: #7b61ff;
+  background-color: #f9f0ff;
 }
 
 .Title h1 {
@@ -56,6 +101,7 @@
 }
 
 .TodosItem {
+  z-index: 2;
   background: #ffffff;
   border: 1px solid #e4e4e8;
   border-radius: 4px;

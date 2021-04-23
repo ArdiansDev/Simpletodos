@@ -20,7 +20,7 @@ export default function Todos() {
       <div>
         <div key={data.id} className="Todos">
           {data.map((data) => (
-            <div>
+            <div key={data.id} className="ContainerCard">
               <div className="Cards">
                 <div className="Title">
                   <div>
