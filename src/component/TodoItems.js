@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Button from "@material-ui/core/Button";
 import * as axios from "axios";
@@ -12,18 +12,21 @@ import Items from "./Items";
 export default function TodosItem(props) {
   const id = props.data.id;
   const [data, setData] = useState([]);
+  const [Loading, setLoading] = useState(false);
   // const [percentage, setPercentage] = useState("10%");
 
-  const refreshData = () => {
-    axios.get(`${TodosUrl}${id}/items`, config).then((result) => {
+  const refreshData = useCallback(() => {
+    axios.get(`${TodosUrl}${props.data.id}/items`, config).then((result) => {
       setData(result.data);
+      props.callData();
       // console.log(result.data);
     });
     // props.callData();
-  };
+  }, []);
 
   useEffect(() => {
     refreshData();
+    setLoading(!Loading);
   }, [refreshData]);
 
   // Dialog add

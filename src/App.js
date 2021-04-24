@@ -1,13 +1,20 @@
-import React from "react";
 import "./App.css";
-import Sidebar from "./component/Sidebar";
-import Todos from "./component/Todos";
+import React, {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+import Home from "./Home";
 
 function App() {
   return (
     <div className="App">
-      <Sidebar />
-      <Todos />
+      <Router>
+        <Switch>
+          <Route path="/v1" exact component={Home} />
+        </Switch>
+      </Router>
     </div>
   );
 }
