@@ -19,7 +19,6 @@ export default function TodosItem(props) {
     axios.get(`${TodosUrl}${props.data.id}/items`, config).then((result) => {
       setData(result.data);
       props.callData();
-      // console.log(result.data);
     });
     // props.callData();
   }, []);
