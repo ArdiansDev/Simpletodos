@@ -11,22 +11,10 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Items from "./Items";
 export default function TodosItem(props) {
   const id = props.data.id;
-  const [data, setData] = useState([]);
-  const [Loading, setLoading] = useState(false);
-  // const [percentage, setPercentage] = useState("10%");
 
-  const refreshData = useCallback(() => {
-    axios.get(`${TodosUrl}${props.data.id}/items`, config).then((result) => {
-      setData(result.data);
-      props.callData();
-    });
-    // props.callData();
-  }, []);
-
-  useEffect(() => {
-    refreshData();
-    setLoading(!Loading);
-  }, [refreshData]);
+  const refreshData = () => {
+    props.callData();
+  };
 
   // Dialog add
   const [openCreate, setOpenCreate] = useState(false);
@@ -56,19 +44,17 @@ export default function TodosItem(props) {
 
   const handleCreateNewTask = async () => {
     handleCloseCreate();
-    axios.post(`${TodosUrl}${id}/items`, bodyParameters, config);
-    refreshData();
+    await axios.post(`${TodosUrl}${id}/items`, bodyParameters, config);
+
+    props.callData();
   };
 
   return (
     <div>
-      {data.map((data) => (
-        <Items refreshData={refreshData} key={data.id} data={data} />
-      ))}
       <div>
         <Dialog
           open={openCreate}
-          refresh={handleCloseCreate}
+          onClose={handleCloseCreate}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -102,7 +88,7 @@ export default function TodosItem(props) {
                 </form>
                 <DialogActions>
                   <Button
-                    onClick={handleCreateNewTask}
+                    onClick={handleCloseCreate}
                     style={{
                       textTransform: "none",
                       width: "96px",

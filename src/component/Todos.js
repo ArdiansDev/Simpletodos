@@ -2,15 +2,31 @@ import React, { useState, useEffect } from "react";
 import * as axios from "axios";
 import { config, TodosUrl } from "./config";
 import TodosItem from "./TodoItems";
+import Items from "./Items";
 
 export default function Todos() {
-  const [data, setData] = useState([]);
-  // const [percentage, setPercentage] = useState("0%");
-  const callData = () => {
-    axios.get(TodosUrl, config).then((result) => {
-      setData(result.data);
-    });
+  const [dataItems, setDataItems] = useState([]);
+  const callData = async () => {
+    try {
+      const resDataGroup = await axios.get(TodosUrl, config);
+
+      const results = await Promise.all(
+        resDataGroup.data.map(async (val) => {
+          const resDataItem = await axios.get(
+            `${TodosUrl}${val.id}/items`,
+            config
+          );
+          return { ...val, items: resDataItem.data };
+        })
+      );
+
+      setDataItems(results);
+    } catch (error) {
+      console.error(error);
+    } finally {
+    }
   };
+
   useEffect(() => {
     callData();
   }, []);
@@ -18,8 +34,8 @@ export default function Todos() {
   return (
     <div>
       <div>
-        <div key={data.id} className="Todos">
-          {data.map((data) => (
+        <div className="Todos">
+          {dataItems.map((data) => (
             <div key={data.id} className="ContainerCard">
               <div className="Cards">
                 <div className="Title">
@@ -29,7 +45,21 @@ export default function Todos() {
                   </div>
                 </div>
                 <div>
-                  <TodosItem callData={callData} key={data.id} data={data} />
+                  {data.items.map((item) => (
+                    <Items
+                      callData={callData}
+                      key={item.id}
+                      // data={data}
+                      data={item}
+                    />
+                  ))}
+
+                  <TodosItem
+                    callData={callData}
+                    key={data.id}
+                    data={data}
+                    dataItems={dataItems}
+                  />
                 </div>
               </div>
             </div>

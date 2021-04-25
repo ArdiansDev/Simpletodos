@@ -17,25 +17,17 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 export default function Items(props) {
   const id = props.data.id;
   const todoId = props.data.todo_id;
-  const [data, setData] = useState(props.data);
   const [percentage, setPercentage] = useState(props.data.progress_percentage);
-  // const index =
   const [color, setColor] = useState("blue");
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState(props.data.name);
-  //   const [nameNext, setNameNext] = useState(props.data.name);
-  //   const [Progress_percentageNext, setProgress_percentageNext] = useState(
-  //     props.data.progress_percentage
-  //   );
   const [done, setDone] = useState(props.data.done);
-  const [progress_percentage, setProgress_percentage] = useState(
-    props.data.progress_percentage
-  );
+
   const nextId = todoId + 1;
   const prevId = todoId - 1;
-  //   console.log(todoId);
+  // console.log(props.data);
   const Percentage = () => {
-    if (percentage >= "100") {
+    if (props.data.progress_percentage >= "100") {
       setColor("green");
       setDone(true);
     } else {
@@ -44,18 +36,9 @@ export default function Items(props) {
     }
   };
 
-  const callData = () => {
-    axios.get(`${TodosUrl}${todoId}/items/${id}`, config).then((result) => {
-      setData(result.data);
-
-      setPercentage(result.data.progress_percentage);
-    });
-  };
-
   useEffect(() => {
-    callData();
     Percentage();
-  }, [percentage]);
+  }, [props.data.progress_percentage]);
 
   // open options
   const handleClick = (event) => {
@@ -82,7 +65,7 @@ export default function Items(props) {
   const handleDeleteTask = async () => {
     handleCloseDelete();
     axios.delete(`${TodosUrl}${todoId}/items/${id}`, config);
-    props.refreshData();
+    props.callData();
   };
 
   // handle delete end
@@ -103,45 +86,46 @@ export default function Items(props) {
   };
 
   const handleOnChangePercentage = (e) => {
-    setProgress_percentage(e.target.value);
+    setPercentage(e.target.value);
   };
 
   const bodyParameters = {
     name: name,
-    progress_percentage: progress_percentage,
+    progress_percentage: percentage,
     target_todo_id: todoId,
   };
 
   const bodyParametersNext = {
     name: name,
-    progress_percentage: progress_percentage,
+    progress_percentage: percentage,
   };
 
   const handleEditTask = async () => {
     handleCloseEdit();
     axios.patch(`${TodosUrl}${todoId}/items/${id}`, bodyParameters, config);
-    callData();
+    props.callData();
   };
-  // handle edit end
 
   // handle move right
 
   const handleNext = async () => {
-    axios.post(`${TodosUrl}${nextId}/items`, bodyParametersNext, config);
+    await axios.post(`${TodosUrl}${nextId}/items`, bodyParametersNext, config);
     handleDeleteTask();
-    props.refreshData();
+    // handleClose();
   };
 
   const handlePrev = async () => {
     axios.post(`${TodosUrl}${prevId}/items`, bodyParametersNext, config);
     handleDeleteTask();
-    props.refreshData();
+    // handleClose();
   };
+
+  // console.log(props.dataItems.objDataItems);
 
   return (
     <div>
-      <div key={data.name} className="TodosItem">
-        <h1>{data.name}</h1>
+      <div key={props.data.name} className="TodosItem">
+        <h1>{props.data.name}</h1>
 
         <div className="ProgressContainer">
           <div className="ProgressSubContainer">
@@ -149,7 +133,7 @@ export default function Items(props) {
               <div
                 style={{
                   height: "100%",
-                  width: percentage,
+                  width: props.data.progress_percentage,
                   maxWidth: "100%",
                   backgroundColor: color,
                   borderRadius: "8px",
@@ -161,7 +145,7 @@ export default function Items(props) {
                 done ? { display: "none" } : { margin: "8px", color: "green" }
               }
             >
-              {percentage}%
+              {props.data.progress_percentage}%
             </div>
             <div
               style={
@@ -181,7 +165,7 @@ export default function Items(props) {
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
-            keepMounted
+            // keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
@@ -292,7 +276,7 @@ export default function Items(props) {
                         width: "99px",
                         margin: "0 0 27px 33px",
                       }}
-                      defaultValue={progress_percentage}
+                      defaultValue={percentage}
                       type="text"
                       id="outlined-basic"
                       placeholder="0%"
@@ -331,6 +315,7 @@ export default function Items(props) {
           </Dialog>
         </div>
       </div>
+      {/* ))} */}
     </div>
   );
 }
