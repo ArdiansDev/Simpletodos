@@ -98,6 +98,13 @@ export default function Items(props) {
   const bodyParametersNext = {
     name: name,
     progress_percentage: percentage,
+    target_todo_id: nextId,
+  };
+
+  const bodyParametersPrev = {
+    name: name,
+    progress_percentage: percentage,
+    target_todo_id: prevId,
   };
 
   const handleEditTask = async () => {
@@ -109,14 +116,22 @@ export default function Items(props) {
   // handle move right
 
   const handleNext = async () => {
-    await axios.post(`${TodosUrl}${nextId}/items`, bodyParametersNext, config);
-    handleDeleteTask();
+    await axios.patch(
+      `${TodosUrl}${todoId}/items/${id}`,
+      bodyParametersNext,
+      config
+    );
+    props.callData();
     // handleClose();
   };
 
   const handlePrev = async () => {
-    axios.post(`${TodosUrl}${prevId}/items`, bodyParametersNext, config);
-    handleDeleteTask();
+    await axios.patch(
+      `${TodosUrl}${todoId}/items/${id}`,
+      bodyParametersPrev,
+      config
+    );
+    props.callData();
     // handleClose();
   };
 

@@ -9,7 +9,6 @@ export default function Todos() {
   const callData = async () => {
     try {
       const resDataGroup = await axios.get(TodosUrl, config);
-
       const results = await Promise.all(
         resDataGroup.data.map(async (val) => {
           const resDataItem = await axios.get(
