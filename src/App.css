@@ -22,7 +22,7 @@
   border: 1px solid #eb2f96 !important;
   border-radius: 4px;
   background-color: #fff9fb;
-  margin: 16px;
+  margin: 8px;
 }
 
 .ContainerCard:nth-child(2) .Cards {
@@ -30,7 +30,7 @@
   border: 1px solid #7b61ff !important;
   border-radius: 4px;
   background-color: #fcfafd;
-  margin: 16px;
+  margin: 8px;
 }
 
 .ContainerCard:nth-child(3) .Cards {
@@ -38,7 +38,7 @@
   border: 1px solid #2f54eb !important;
   border-radius: 4px;
   background-color: #f7faff;
-  margin: 16px;
+  margin: 8px;
 }
 
 .ContainerCard:nth-child(4) .Cards {
@@ -46,7 +46,7 @@
   border: 1px solid #eb2f96 !important;
   border-radius: 4px;
   background-color: #fff9fb;
-  margin: 16px;
+  margin: 8px;
 }
 
 .ContainerCard:nth-child(2) .Cards .Title h1 {
